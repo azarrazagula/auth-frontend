@@ -33,6 +33,6 @@ export const FOOD_ITEMS = [
     price: 28.75,
     description: "Fresh Atlantic lobster, herb butter, and toasted brioche.",
     src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAaJQvdKxRQnWg28UJ7iBeGGwRtb8xBw7bNGcOk4MD6_N723glUq1fuFYGk1l_tPmohOnR7oz3xCL59sCs1v6W4oHiDOhIgidAyRSiDFHgBc9qNALltp-9OiarHqO7CSZik5zrbo_jVh1cgyG5FUUpTWNqM3ic1IBJvvTNpwAIOfLFOnT9zkcitF-zbKq7NpwR3ziQJsHJtE4HEOTWvYqRYZOGLkzcJNYP3TLvFSa13QDMfJiSd95tRXC3gCAqcemrTrOFIJ_BdpHA",
-    category: "Seafood",
+    category: "SeaFood",
   },
 ];
