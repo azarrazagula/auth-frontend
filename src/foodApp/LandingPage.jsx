@@ -41,12 +41,12 @@ const LandingPage = ({ onLogout }) => {
               <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
                 <span className="material-symbols-outlined text-on-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant</span>
               </div>
-              <span className="font-headline text-2xl font-black tracking-tighter text-on-surface">Savor & Stem</span>
+              <span className="font-headline text-2xl font-black tracking-tighter text-on-surface">Azar & Vijay</span>
             </div>
 
             {/* Actions */}
             <div className="flex items-center gap-4">
-              <button 
+              <button
                 onClick={() => setIsCartOpen(true)}
                 className="relative p-2 text-on-surface-variant hover:text-on-surface transition-colors"
                 aria-label="Open Cart"
@@ -59,7 +59,7 @@ const LandingPage = ({ onLogout }) => {
                 )}
               </button>
               <div className="w-px h-6 bg-outline-variant/30"></div>
-              <button 
+              <button
                 onClick={onLogout}
                 className="text-sm font-label font-bold uppercase tracking-widest text-on-surface-variant hover:text-error transition-colors"
               >
@@ -88,9 +88,9 @@ const LandingPage = ({ onLogout }) => {
         {/* Menu Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {FOOD_ITEMS.map((item) => (
-            <FoodItem 
-              key={item.id} 
-              item={item} 
+            <FoodItem
+              key={item.id}
+              item={item}
               onAddToCart={handleAddToCart}
             />
           ))}
@@ -99,7 +99,7 @@ const LandingPage = ({ onLogout }) => {
 
       {/* Cart Sidebar */}
       {isCartOpen && (
-        <Cart 
+        <Cart
           cartItems={cartItems}
           onUpdateQuantity={handleUpdateQuantity}
           onRemoveItem={handleRemoveItem}

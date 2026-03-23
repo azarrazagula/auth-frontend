@@ -1,3 +1,4 @@
+import cre from "../Assets/cre.jpg";
 export const FOOD_ITEMS = [
   {
     id: 1,
@@ -6,7 +7,7 @@ export const FOOD_ITEMS = [
     description:
       "Premium Wagyu beef, truffle aioli, aged cheddar, and brioche bun.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAaJQvdKxRQnWg28UJ7iBeGGwRtb8xBw7bNGcOk4MD6_N723glUq1fuFYGk1l_tPmohOnR7oz3xCL59sCs1v6W4oHiDOhIgidAyRSiDFHgBc9qNALltp-9OiarHqO7CSZik5zrbo_jVh1cgyG5FUUpTWNqM3ic1IBJvvTNpwAIOfLFOnT9zkcitF-zbKq7NpwR3ziQJsHJtE4HEOTWvYqRYZOGLkzcJNYP3TLvFSa13QDMfJiSd95tRXC3gCAqcemrTrOFIJ_BdpHA",
+      "https://thebigmansworld.com/wp-content/uploads/2025/06/wagyu-burger-recipe.jpg",
     category: "Main Course",
   },
   {
@@ -15,8 +16,7 @@ export const FOOD_ITEMS = [
     price: 24.5,
     description:
       "Handmade pappardelle, wild mushrooms, and creamy truffle sauce.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAaJQvdKxRQnWg28UJ7iBeGGwRtb8xBw7bNGcOk4MD6_N723glUq1fuFYGk1l_tPmohOnR7oz3xCL59sCs1v6W4oHiDOhIgidAyRSiDFHgBc9qNALltp-9OiarHqO7CSZik5zrbo_jVh1cgyG5FUUpTWNqM3ic1IBJvvTNpwAIOfLFOnT9zkcitF-zbKq7NpwR3ziQJsHJtE4HEOTWvYqRYZOGLkzcJNYP3TLvFSa13QDMfJiSd95tRXC3gCAqcemrTrOFIJ_BdpHA",
+    image: cre,
     category: "Pasta",
   },
   {
@@ -24,7 +24,8 @@ export const FOOD_ITEMS = [
     name: "Seared Scallops",
     price: 32.0,
     description: "Pan-seared scallops, cauliflower purée, and caviar garnish.",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAaJQvdKxRQnWg28UJ7iBeGGwRtb8xBw7bNGcOk4MD6_N723glUq1fuFYGk1l_tPmohOnR7oz3xCL59sCs1v6W4oHiDOhIgidAyRSiDFHgBc9qNALltp-9OiarHqO7CSZik5zrbo_jVh1cgyG5FUUpTWNqM3ic1IBJvvTNpwAIOfLFOnT9zkcitF-zbKq7NpwR3ziQJsHJtE4HEOTWvYqRYZOGLkzcJNYP3TLvFSa13QDMfJiSd95tRXC3gCAqcemrTrOFIJ_BdpHA",
+    image:
+      "https://www.billyparisi.com/wp-content/uploads/2021/05/scallops-2.jpg",
     category: "Appetizers",
   },
   {
@@ -32,7 +33,8 @@ export const FOOD_ITEMS = [
     name: "Artisan Lobster Roll",
     price: 28.75,
     description: "Fresh Atlantic lobster, herb butter, and toasted brioche.",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAaJQvdKxRQnWg28UJ7iBeGGwRtb8xBw7bNGcOk4MD6_N723glUq1fuFYGk1l_tPmohOnR7oz3xCL59sCs1v6W4oHiDOhIgidAyRSiDFHgBc9qNALltp-9OiarHqO7CSZik5zrbo_jVh1cgyG5FUUpTWNqM3ic1IBJvvTNpwAIOfLFOnT9zkcitF-zbKq7NpwR3ziQJsHJtE4HEOTWvYqRYZOGLkzcJNYP3TLvFSa13QDMfJiSd95tRXC3gCAqcemrTrOFIJ_BdpHA",
+    image:
+      "https://www.gerbes.com/content/v2/binary/recipe/images/5ee241289da07c157d4d2f98-original.jpg",
     category: "SeaFood",
   },
 ];
