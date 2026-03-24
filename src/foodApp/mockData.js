@@ -1,4 +1,3 @@
-import cre from "../Assets/cre.jpg";
 export const FOOD_ITEMS = [
   {
     id: 1,
@@ -16,7 +15,8 @@ export const FOOD_ITEMS = [
     price: 24.5,
     description:
       "Handmade pappardelle, wild mushrooms, and creamy truffle sauce.",
-    image: cre,
+    image:
+      "https://www.allrecipes.com/thmb/92X62m34_b15q21o8d84Xf34280=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/235777-creamy-mushroom-pasta-mfs-3x2-1-d8817084185e4461885307f0d1441753.jpg",
     category: "Pasta",
   },
   {

@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5001/api/user";
+const BASE_URL = "https://auth-backend-3-4m2m.onrender.com/api/user";
 
 export const registerUser = async ({
   firstName,
@@ -13,6 +13,7 @@ export const registerUser = async ({
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         firstName,
         lastName,
@@ -39,6 +40,7 @@ export const loginUser = async (credentials) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(credentials),
     });
 
@@ -59,6 +61,7 @@ export const forgotPassword = async (email) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({ email }),
     });
 
@@ -79,6 +82,7 @@ export const resetPassword = async (token, newPassword) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({ password: newPassword }),
     });
 
