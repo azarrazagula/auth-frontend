@@ -41,7 +41,7 @@ const LandingPage = ({ onLogout }) => {
               <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
                 <span className="material-symbols-outlined text-on-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant</span>
               </div>
-              <span className="font-headline text-2xl font-black tracking-tighter text-on-surface">Azar & Vijay</span>
+              <span className="font-headline text-2xl font-black tracking-tighter text-on-surface">No Bail & No Oil</span>
             </div>
 
             {/* Actions */}

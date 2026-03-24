@@ -1,4 +1,5 @@
-const BASE_URL = "https://auth-backend-3-4m2m.onrender.com/api/user";
+const BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:5001/api/user";
 
 export const registerUser = async ({
   firstName,
