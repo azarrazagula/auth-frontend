@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FoodItem from './FoodItem';
 import Cart from './Cart';
+import UserProfile from './UserProfile';
 import { FOOD_ITEMS } from './mockData';
 
 const LandingPage = ({ onLogout }) => {
@@ -59,12 +60,7 @@ const LandingPage = ({ onLogout }) => {
                 )}
               </button>
               <div className="w-px h-6 bg-outline-variant/30"></div>
-              <button
-                onClick={onLogout}
-                className="text-sm font-label font-bold uppercase tracking-widest text-on-surface-variant hover:text-error transition-colors"
-              >
-                Logout
-              </button>
+              <UserProfile onLogout={onLogout} />
             </div>
           </div>
         </div>

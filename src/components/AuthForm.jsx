@@ -6,6 +6,8 @@ const initialState = {
   formData: {
     firstName: '',
     lastName: '',
+    dateOfBirth: '',
+    phonenumber: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -73,7 +75,13 @@ const AuthForm = ({ onLoginSuccess }) => {
           if (onLoginSuccess) onLoginSuccess();
         }
       } else if (isRegister) {
-        data = await registerUser(formData);
+        // Convert date from yyyy-mm-dd to dd.mm.yyyy for the API
+        const [year, month, day] = (formData.dateOfBirth || '').split('-');
+        const registrationData = {
+          ...formData,
+          dateOfBirth: day && month && year ? `${day}.${month}.${year}` : formData.dateOfBirth,
+        };
+        data = await registerUser(registrationData);
         dispatch({ type: 'SWITCH_MODE', payload: 'login' });
         dispatch({ type: 'SET_SUCCESS', payload: 'Registration successful!' });
         if (data.accessToken) {
@@ -191,6 +199,46 @@ const AuthForm = ({ onLoginSuccess }) => {
                       required
                       autoComplete="family-name"
                     />
+                  </div>
+                </div>
+              )}
+
+              {isRegister && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2 text-left">
+                    <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Date of Birth</label>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                        <span className="material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors text-xl">cake</span>
+                      </div>
+                      <input
+                        type="date"
+                        name="dateOfBirth"
+                        value={formData.dateOfBirth}
+                        onChange={handleChange}
+                        className="w-full py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                        required
+                        autoComplete="bday"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-left">
+                    <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Phone Number</label>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                        <span className="material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors text-xl">phone</span>
+                      </div>
+                      <input
+                        type="tel"
+                        name="phonenumber"
+                        value={formData.phonenumber}
+                        onChange={handleChange}
+                        className="w-full py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                        placeholder="9944171692"
+                        required
+                        autoComplete="tel"
+                      />
+                    </div>
                   </div>
                 </div>
               )}

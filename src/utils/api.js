@@ -4,6 +4,8 @@ const BASE_URL = rawUrl.replace(/^["']|["']$/g, '');
 export const registerUser = async ({
   firstName,
   lastName,
+  dateOfBirth,
+  phonenumber,
   email,
   password,
   confirmPassword,
@@ -18,6 +20,8 @@ export const registerUser = async ({
       body: JSON.stringify({
         firstName,
         lastName,
+        "Date-Of-Birth": dateOfBirth,
+        phonenumber,
         email,
         password,
         confirmPassword,
@@ -90,6 +94,56 @@ export const resetPassword = async (token, newPassword) => {
     const data = await response.json();
     if (!response.ok) {
       throw new Error(data.message || "Failed to reset password");
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserProfile = async () => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const response = await fetch(`${BASE_URL}/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      credentials: "include",
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch profile");
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserProfile = async (updates) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const response = await fetch(`${BASE_URL}/me`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        firstName: updates.firstName,
+        lastName: updates.lastName,
+        phoneNumber: updates.phonenumber,
+        dateOfBirth: updates.dateOfBirth,
+      }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to update profile");
     }
     return data;
   } catch (error) {
