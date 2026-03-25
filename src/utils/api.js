@@ -1,5 +1,5 @@
-const BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:5001/api/user";
+const rawUrl = process.env.REACT_APP_API_URL || "https://auth-backend-3-4m2m.onrender.com/api/user";
+const BASE_URL = rawUrl.replace(/^["']|["']$/g, '');
 
 export const registerUser = async ({
   firstName,

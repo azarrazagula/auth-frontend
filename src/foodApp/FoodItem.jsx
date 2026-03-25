@@ -23,7 +23,7 @@ const FoodItem = ({ item, onAddToCart }) => {
           {item.category}
         </div>
       </div>
-      
+
       <div className="p-8 space-y-6">
         <div className="space-y-2">
           <div className="flex justify-between items-start">

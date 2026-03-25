@@ -27,13 +27,13 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-surface/80 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-surface h-full shadow-2xl overflow-y-auto animate-in slide-in-from-right duration-300">
-        
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-surface/80 backdrop-blur-sm p-4">
+      <div className="w-full max-w-lg bg-surface max-h-[90vh] shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300 rounded-[32px] border border-outline-variant/10">
+
         {/* Header */}
         <div className="sticky top-0 bg-surface/90 backdrop-blur-md p-6 border-b border-outline-variant/20 flex items-center justify-between z-10">
           <h2 className="font-headline text-2xl font-black text-on-surface">Your Cart</h2>
-          <button 
+          <button
             onClick={onClose}
             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high text-on-surface transition-colors"
           >
@@ -61,29 +61,29 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
                       <p className="font-body text-xs text-on-surface-variant">${item.price.toFixed(2)}</p>
                     </div>
                     <div className="flex items-center justify-between mt-2">
-                       <div className="flex items-center bg-surface-container-high rounded-full p-0.5 border border-outline-variant/10">
-                          <button
-                            onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                            className="w-6 h-6 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-bright transition-colors"
-                          >
-                            <span className="material-symbols-outlined text-sm">remove</span>
-                          </button>
-                          <span className="w-6 text-center font-headline font-bold text-xs text-on-surface">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                            className="w-6 h-6 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-bright transition-colors"
-                          >
-                            <span className="material-symbols-outlined text-sm">add</span>
-                          </button>
-                        </div>
-                        <button 
-                          onClick={() => onRemoveItem(item.id)}
-                          className="text-error text-xs font-bold uppercase tracking-wider hover:underline"
+                      <div className="flex items-center bg-surface-container-high rounded-full p-0.5 border border-outline-variant/10">
+                        <button
+                          onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                          className="w-6 h-6 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-bright transition-colors"
                         >
-                          Remove
+                          <span className="material-symbols-outlined text-sm">remove</span>
                         </button>
+                        <span className="w-6 text-center font-headline font-bold text-xs text-on-surface">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                          className="w-6 h-6 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-bright transition-colors"
+                        >
+                          <span className="material-symbols-outlined text-sm">add</span>
+                        </button>
+                      </div>
+                      <button
+                        onClick={() => onRemoveItem(item.id)}
+                        className="text-error text-xs font-bold uppercase tracking-wider hover:underline"
+                      >
+                        Remove
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -113,7 +113,7 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
           {cartItems.length > 0 && (
             <form onSubmit={handleCheckout} className="space-y-6 pt-4 border-t border-outline-variant/20">
               <h3 className="font-headline text-lg font-bold text-on-surface">Billing Details</h3>
-              
+
               <div className="space-y-4">
                 <div className="space-y-1 text-left">
                   <label className="block font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1">Full Name</label>
@@ -127,7 +127,7 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
                     placeholder="Jane Doe"
                   />
                 </div>
-                
+
                 <div className="space-y-1 text-left">
                   <label className="block font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1">Email</label>
                   <input
@@ -167,6 +167,7 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
                       placeholder="Foodville"
                     />
                   </div>
+
                   <div className="space-y-1 text-left">
                     <label className="block font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1">ZIP Code</label>
                     <input
@@ -183,12 +184,12 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
               </div>
 
               <div className="sticky bottom-6 pt-4">
-                 <button
-                    type="submit"
-                    className="w-full py-4 bg-primary text-on-primary-fixed font-headline font-extrabold text-sm uppercase tracking-[0.2em] rounded-full shadow-[0_20px_40px_-10px_rgba(255,144,106,0.3)] hover:bg-primary-container active:scale-[0.98] transition-all duration-300"
-                  >
-                    Place Order • ${total.toFixed(2)}
-                  </button>
+                <button
+                  type="submit"
+                  className="w-full py-4 bg-primary text-on-primary-fixed font-headline font-extrabold text-sm uppercase tracking-[0.2em] rounded-full shadow-[0_20px_40px_-10px_rgba(255,144,106,0.3)] hover:bg-primary-container active:scale-[0.98] transition-all duration-300"
+                >
+                  Place Order • ${total.toFixed(2)}
+                </button>
               </div>
             </form>
           )}

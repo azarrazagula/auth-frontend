@@ -1,3 +1,5 @@
+import { image1, image2, image3, image4 } from "../Assets";
+
 export const FOOD_ITEMS = [
   {
     id: 1,
@@ -5,7 +7,7 @@ export const FOOD_ITEMS = [
     price: 18.99,
     description:
       "Premium Wagyu beef, truffle aioli, aged cheddar, and brioche bun.",
-    image: "/images/wagyu-burger.png",
+    image: image1,
     category: "Main Course",
   },
   {
@@ -14,7 +16,7 @@ export const FOOD_ITEMS = [
     price: 24.5,
     description:
       "Handmade pappardelle, wild mushrooms, and creamy truffle sauce.",
-    image: "/images/truffle-pasta.png",
+    image: image2,
     category: "Pasta",
   },
   {
@@ -22,7 +24,7 @@ export const FOOD_ITEMS = [
     name: "Seared Scallops",
     price: 32.0,
     description: "Pan-seared scallops, cauliflower purée, and caviar garnish.",
-    image: "/images/seared-scallops.png",
+    image: image3,
     category: "Appetizers",
   },
   {
@@ -30,7 +32,8 @@ export const FOOD_ITEMS = [
     name: "Artisan Lobster Roll",
     price: 28.75,
     description: "Fresh Atlantic lobster, herb butter, and toasted brioche.",
-    image: "/images/lobster-roll.png",
+    image: image4,
     category: "SeaFood",
   },
 ];
+console.log(FOOD_ITEMS[0].image);
