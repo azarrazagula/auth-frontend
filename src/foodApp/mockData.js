@@ -36,4 +36,3 @@ export const FOOD_ITEMS = [
     category: "SeaFood",
   },
 ];
-console.log(FOOD_ITEMS[0].image);

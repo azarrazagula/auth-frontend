@@ -92,7 +92,7 @@ const AuthForm = ({ onLoginSuccess }) => {
         dispatch({ type: 'SWITCH_MODE', payload: 'login' });
         dispatch({ type: 'SET_SUCCESS', payload: data.message || 'Password reset successful! Please login.' });
       }
-      console.log('Auth Success:', data);
+
     } catch (err) {
       dispatch({ type: 'SET_ERROR', payload: err.message || 'Something went wrong' });
     }
