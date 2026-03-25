@@ -20,8 +20,8 @@ export const registerUser = async ({
       body: JSON.stringify({
         firstName,
         lastName,
-        "Date-Of-Birth": dateOfBirth,
-        phonenumber,
+        dateOfBirth,
+        phoneNumber: phonenumber,
         email,
         password,
         confirmPassword,
