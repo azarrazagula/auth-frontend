@@ -70,18 +70,27 @@ const UserProfile = ({ onLogout }) => {
     setSaveError('');
     setSaveSuccess(false);
     try {
-      const payload = {
+      await updateUserProfile({
         firstName: editData.firstName,
         lastName: editData.lastName,
-        'Date-Of-Birth': editData.dateOfBirth,
+        dateOfBirth: editData.dateOfBirth,
         phonenumber: editData.phonenumber,
-      };
-      const data = await updateUserProfile(payload);
-      const updated = data.user || data;
-      setUser(prev => ({ ...prev, ...updated }));
+      });
+
+      // Directly update user state from editData so UI reflects changes immediately
+      setUser(prev => ({
+        ...prev,
+        firstName: editData.firstName,
+        lastName: editData.lastName,
+        dateOfBirth: editData.dateOfBirth,
+        phoneNumber: editData.phonenumber,
+        phonenumber: editData.phonenumber,
+        'Date-Of-Birth': editData.dateOfBirth,
+      }));
+
       setSaveSuccess(true);
       setIsEditing(false);
-      setTimeout(() => setSaveSuccess(false), 2000);
+      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
       setSaveError(err.message || 'Failed to save changes.');
     } finally {
