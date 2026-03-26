@@ -1,5 +1,16 @@
-const rawUrl = process.env.REACT_APP_API_URL || "https://auth-backend-3-4m2m.onrender.com/api/user";
-const BASE_URL = rawUrl.replace(/^["']|["']$/g, '');
+const rawUrl =
+  process.env.REACT_APP_API_URL ||
+  "https://auth-backend-3-4m2m.onrender.com/api/user";
+const rawAdminUrl =
+  process.env.REACT_APP_ADMIN_API_URL ||
+  "https://auth-backend-3-4m2m.onrender.com/";
+const rawDashboardUrl =
+  process.env.REACT_APP_ADMIN_URL ||
+  "https://admin-singlepagefoodapp.netlify.app/api/admin";
+
+export const BASE_URL = rawUrl.replace(/^["']|["']$/g, "");
+export const BASE_ADMIN_URL = rawAdminUrl.replace(/^["']|["']$/g, "");
+export const ADMIN_DASHBOARD_URL = rawDashboardUrl.replace(/^["']|["']$/g, "");
 
 export const registerUser = async ({
   firstName,
@@ -103,12 +114,12 @@ export const resetPassword = async (token, newPassword) => {
 
 export const getUserProfile = async () => {
   try {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     const response = await fetch(`${BASE_URL}/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       credentials: "include",
     });
@@ -125,12 +136,12 @@ export const getUserProfile = async () => {
 
 export const updateUserProfile = async (updates) => {
   try {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     const response = await fetch(`${BASE_URL}/me`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       credentials: "include",
       body: JSON.stringify({

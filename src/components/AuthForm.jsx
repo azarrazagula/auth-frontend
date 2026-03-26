@@ -79,6 +79,7 @@ const AuthForm = ({ onLoginSuccess }) => {
         const [year, month, day] = (formData.dateOfBirth || '').split('-');
         const registrationData = {
           ...formData,
+          phoneNumber: formData.phonenumber,
           dateOfBirth: day && month && year ? `${day}.${month}.${year}` : formData.dateOfBirth,
         };
         data = await registerUser(registrationData);
