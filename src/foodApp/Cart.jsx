@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { submitBilling } from '../utils/api';
 
 const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [billingInfo, setBillingInfo] = useState({
     fullName: '',
     email: '',
     address: '',
     city: '',
+    state: '',
     zipCode: '',
+    country: '',
   });
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -18,12 +22,21 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
     setBillingInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckout = (e) => {
+  const handleCheckout = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) return alert('Your cart is empty!');
-    // Handle actual checkout logic here
-    alert(`Checkout successful for ${total.toFixed(2)}!\nBilling Address: ${billingInfo.address}, ${billingInfo.city}`);
-    onClose();
+    
+    setIsSubmitting(true);
+    try {
+      await submitBilling(billingInfo);
+      alert(`Checkout successful for $${total.toFixed(2)}!\nBilling Address: ${billingInfo.address}, ${billingInfo.city}`);
+      onClose();
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert(error.message || 'There was an error processing your checkout.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -169,6 +182,21 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
                   </div>
 
                   <div className="space-y-1 text-left">
+                    <label className="block font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1">State</label>
+                    <input
+                      type="text"
+                      name="state"
+                      value={billingInfo.state}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full py-3 px-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-highest transition-all text-sm"
+                      placeholder="California"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1 text-left">
                     <label className="block font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1">ZIP Code</label>
                     <input
                       type="text"
@@ -180,15 +208,29 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
                       placeholder="90210"
                     />
                   </div>
+
+                  <div className="space-y-1 text-left">
+                    <label className="block font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1">Country</label>
+                    <input
+                      type="text"
+                      name="country"
+                      value={billingInfo.country}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full py-3 px-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-highest transition-all text-sm"
+                      placeholder="USA"
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className="sticky bottom-6 pt-4">
                 <button
                   type="submit"
-                  className="w-full py-4 bg-primary text-on-primary-fixed font-headline font-extrabold text-sm uppercase tracking-[0.2em] rounded-full shadow-[0_20px_40px_-10px_rgba(255,144,106,0.3)] hover:bg-primary-container active:scale-[0.98] transition-all duration-300"
+                  disabled={isSubmitting}
+                  className="w-full py-4 bg-primary text-on-primary-fixed font-headline font-extrabold text-sm uppercase tracking-[0.2em] rounded-full shadow-[0_20px_40px_-10px_rgba(255,144,106,0.3)] hover:bg-primary-container active:scale-[0.98] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Place Order • ${total.toFixed(2)}
+                  {isSubmitting ? 'Processing...' : `Place Order • $${total.toFixed(2)}`}
                 </button>
               </div>
             </form>
