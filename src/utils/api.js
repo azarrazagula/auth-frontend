@@ -1,12 +1,6 @@
-const rawUrl =
-  process.env.REACT_APP_API_URL ||
-  "https://auth-backend-3-4m2m.onrender.com/api/user";
-const rawAdminUrl =
-  process.env.REACT_APP_ADMIN_API_URL ||
-  "https://auth-backend-3-4m2m.onrender.com/";
-const rawDashboardUrl =
-  process.env.REACT_APP_ADMIN_URL ||
-  "https://admin-singlepagefoodapp.netlify.app/api/admin";
+const rawUrl = process.env.REACT_APP_API_URL || "http://localhost:5001/api/user";
+const rawAdminUrl = process.env.REACT_APP_ADMIN_API_URL || "http://localhost:5001/api/admin";
+const rawDashboardUrl = process.env.REACT_APP_ADMIN_URL || "https://admin-singlepagefoodapp.netlify.app/";
 
 export const BASE_URL = rawUrl.replace(/^["']|["']$/g, "");
 export const BASE_ADMIN_URL = rawAdminUrl.replace(/^["']|["']$/g, "");

@@ -72,7 +72,7 @@ const AuthForm = ({ onLoginSuccess }) => {
         dispatch({ type: 'SET_SUCCESS', payload: 'Login successful!' });
         if (data.accessToken) {
           localStorage.setItem('accessToken', data.accessToken);
-          if (onLoginSuccess) onLoginSuccess();
+          if (onLoginSuccess) onLoginSuccess(data.user || data.admin || data);
         }
       } else if (isRegister) {
         // Convert date from yyyy-mm-dd to dd.mm.yyyy for the API
@@ -87,7 +87,7 @@ const AuthForm = ({ onLoginSuccess }) => {
         dispatch({ type: 'SET_SUCCESS', payload: 'Registration successful!' });
         if (data.accessToken) {
           localStorage.setItem('accessToken', data.accessToken);
-          if (onLoginSuccess) onLoginSuccess();
+          if (onLoginSuccess) onLoginSuccess(data.user || data.admin || data);
         }
       } else if (isForgotPassword) {
         data = await forgotPassword(formData.email);

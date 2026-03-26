@@ -3,8 +3,9 @@ import FoodItem from './FoodItem';
 import Cart from './Cart';
 import UserProfile from './UserProfile';
 import { FOOD_ITEMS } from './mockData';
+import { ADMIN_DASHBOARD_URL } from '../utils/api';
 
-const LandingPage = ({ onLogout }) => {
+const LandingPage = ({ onLogout, user }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -47,6 +48,18 @@ const LandingPage = ({ onLogout }) => {
 
             {/* Actions */}
             <div className="flex items-center gap-4">
+              {user && (user.role === "admin" || user.role === "superadmin") && (
+                <a
+                  href={ADMIN_DASHBOARD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-secondary/10 text-secondary hover:bg-secondary/20 rounded-full transition-all text-[11px] font-label font-bold uppercase tracking-[0.1em] border border-secondary/20 hover:shadow-lg hover:shadow-secondary/10 mr-2"
+                >
+                  <span className="material-symbols-outlined text-base">dashboard</span>
+                  Admin Portal
+                </a>
+              )}
+ 
               <button
                 onClick={() => setIsCartOpen(true)}
                 className="relative p-2 text-on-surface-variant hover:text-on-surface transition-colors"
