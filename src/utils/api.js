@@ -1,10 +1,43 @@
-const rawUrl = process.env.REACT_APP_API_URL || "http://localhost:5001/api/user";
-const rawAdminUrl = process.env.REACT_APP_ADMIN_API_URL || "http://localhost:5001/api/admin";
-const rawDashboardUrl = process.env.REACT_APP_ADMIN_URL || "https://admin-singlepagefoodapp.netlify.app/";
+const getApiRoot = () => {
+  const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+  if (isLocal) {
+    // If we're on local but the backend port was specifically set elsewhere, we might need a way to override.
+    // For now we'll stick with 5001 as the source of truth for the local backend.
+    return "http://localhost:5001";
+  }
+  
+  // Try to extract root from REACT_APP_API_URL or use the hardcoded fallback
+  const envUrl = process.env.REACT_APP_API_URL || "https://auth-backend-3-4m2m.onrender.com";
+  try {
+    const url = new URL(envUrl);
+    // Remove the path to get just the protocol + host
+    return `${url.protocol}//${url.host}`;
+  } catch (e) {
+    return envUrl.replace(/\/api\/user$/, "");
+  }
+};
 
-export const BASE_URL = rawUrl.replace(/^["']|["']$/g, "");
-export const BASE_ADMIN_URL = rawAdminUrl.replace(/^["']|["']$/g, "");
-export const ADMIN_DASHBOARD_URL = rawDashboardUrl.replace(/^["']|["']$/g, "");
+export const API_ROOT = getApiRoot().replace(/^["']|["']$/g, "");
+export const BASE_URL = `${API_ROOT}/api/user`;
+
+export const getFoodItems = async () => {
+  try {
+    const response = await fetch(`${API_ROOT}/api/admin/food`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch products");
+    }
+    return data; // Expected { success: true, data: [...] }
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const registerUser = async ({
   firstName,

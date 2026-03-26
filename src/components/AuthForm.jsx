@@ -75,12 +75,9 @@ const AuthForm = ({ onLoginSuccess }) => {
           if (onLoginSuccess) onLoginSuccess(data.user || data.admin || data);
         }
       } else if (isRegister) {
-        // Convert date from yyyy-mm-dd to dd.mm.yyyy for the API
-        const [year, month, day] = (formData.dateOfBirth || '').split('-');
         const registrationData = {
           ...formData,
           phoneNumber: formData.phonenumber,
-          dateOfBirth: day && month && year ? `${day}.${month}.${year}` : formData.dateOfBirth,
         };
         data = await registerUser(registrationData);
         dispatch({ type: 'SWITCH_MODE', payload: 'login' });

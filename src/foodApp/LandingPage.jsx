@@ -1,13 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FoodItem from './FoodItem';
 import Cart from './Cart';
 import UserProfile from './UserProfile';
-import { FOOD_ITEMS } from './mockData';
-import { ADMIN_DASHBOARD_URL } from '../utils/api';
+import { getFoodItems } from '../utils/api';
+import { FOOD_ITEMS as MOCK_FOOD_ITEMS } from './mockData';
 
 const LandingPage = ({ onLogout, user }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [foodItems, setFoodItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchFood = async () => {
+      try {
+        setLoading(true);
+        const result = await getFoodItems();
+        if (result.success) {
+          // Normalize IDs if needed (backend uses _id, mock uses id)
+          const items = result.data.map(item => ({
+            ...item,
+            id: item._id || item.id 
+          }));
+          setFoodItems(items);
+        } else {
+          setFoodItems(MOCK_FOOD_ITEMS);
+        }
+      } catch (err) {
+        console.error('Failed to fetch food items:', err);
+        setFoodItems(MOCK_FOOD_ITEMS); // Fallback to mock data on error
+        setError('Using offline menu (failed to connect to server)');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFood();
+  }, []);
 
   const handleAddToCart = (item) => {
     setCartItems(prev => {
@@ -48,18 +78,6 @@ const LandingPage = ({ onLogout, user }) => {
 
             {/* Actions */}
             <div className="flex items-center gap-4">
-              {user && (user.role === "admin" || user.role === "superadmin") && (
-                <a
-                  href={ADMIN_DASHBOARD_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-secondary/10 text-secondary hover:bg-secondary/20 rounded-full transition-all text-[11px] font-label font-bold uppercase tracking-[0.1em] border border-secondary/20 hover:shadow-lg hover:shadow-secondary/10 mr-2"
-                >
-                  <span className="material-symbols-outlined text-base">dashboard</span>
-                  Admin Portal
-                </a>
-              )}
- 
               <button
                 onClick={() => setIsCartOpen(true)}
                 className="relative p-2 text-on-surface-variant hover:text-on-surface transition-colors"
@@ -95,15 +113,27 @@ const LandingPage = ({ onLogout, user }) => {
         </div>
 
         {/* Menu Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {FOOD_ITEMS.map((item) => (
-            <FoodItem
-              key={item.id}
-              item={item}
-              onAddToCart={handleAddToCart}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-on-surface-variant font-medium">Loading delicious menu...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {foodItems.map((item) => (
+              <FoodItem
+                key={item.id}
+                item={item}
+                onAddToCart={handleAddToCart}
+              />
+            ))}
+          </div>
+        )}
+        {error && !loading && (
+          <div className="mt-8 p-4 bg-secondary-container/30 border border-secondary/20 rounded-2xl text-center text-secondary text-sm font-medium">
+            {error}
+          </div>
+        )}
       </main>
 
       {/* Cart Sidebar */}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { getUserProfile, updateUserProfile, ADMIN_DASHBOARD_URL } from '../utils/api';
+import { getUserProfile, updateUserProfile } from '../utils/api';
 
 const UserProfile = ({ onLogout }) => {
   const [user, setUser] = useState(null);
@@ -350,18 +350,7 @@ const UserProfile = ({ onLogout }) => {
               </div>
             </div>
 
-            {/* Admin Dashboard — for admin/superadmin only */}
-            {(user.role === "admin" || user.role === "superadmin") && (
-              <a
-                href={ADMIN_DASHBOARD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3 mb-3 bg-secondary/10 text-secondary font-label font-bold text-xs uppercase tracking-widest rounded-full hover:bg-secondary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-              >
-                <span className="material-symbols-outlined text-base">dashboard</span>
-                Admin Dashboard
-              </a>
-            )}
+
  
             {/* Logout */}
             <button
