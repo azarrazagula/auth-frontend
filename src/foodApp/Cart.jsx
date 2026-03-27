@@ -25,7 +25,7 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
   const handleCheckout = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) return alert('Your cart is empty!');
-    
+
     setIsSubmitting(true);
     try {
       await submitBilling(billingInfo);

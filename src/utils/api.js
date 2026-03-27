@@ -1,6 +1,10 @@
 const getApiRoot = () => {
-  const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-  return isLocal ? "http://localhost:5001" : "https://auth-backend-3-4m2m.onrender.com";
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+  return isLocal
+    ? "http://localhost:5001"
+    : "https://auth-backend-3-4m2m.onrender.com";
 };
 
 export const API_ROOT = getApiRoot().replace(/^["']|["']$/g, "");
@@ -184,7 +188,7 @@ export const submitBilling = async (billingData) => {
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
-    
+
     // Explicitly using the requested endpoint for billing details
     const response = await fetch(`${API_ROOT}/api/billing/`, {
       method: "POST",
