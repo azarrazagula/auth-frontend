@@ -153,8 +153,8 @@ const AuthForm = ({ onLoginSuccess }) => {
       </section>
 
       {/* Right Side: Elegant Login Form */}
-      <section className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16 lg:p-24 bg-surface relative z-10">
-        <div className="w-full max-w-md space-y-12">
+      <section className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-16 lg:p-24 bg-surface relative z-10">
+        <div className="w-full max-w-md space-y-8 md:space-y-12">
           {/* Logo & Header */}
           <div className="space-y-4 text-left">
             <div className="flex items-center gap-3">
@@ -163,9 +163,9 @@ const AuthForm = ({ onLoginSuccess }) => {
               </div>
               <span className="font-headline text-3xl font-black tracking-tighter text-on-surface">No Bail & No Oil</span>
             </div>
-            <div className="pt-6">
-              <h2 className="font-headline text-4xl font-bold tracking-tight text-on-surface">{getTitle()}</h2>
-              <p className="font-body text-on-surface-variant mt-2 text-lg">{getSubtitle()}</p>
+            <div className="pt-2 md:pt-6">
+              <h2 className="font-headline text-3xl md:text-4xl font-bold tracking-tight text-on-surface">{getTitle()}</h2>
+              <p className="font-body text-on-surface-variant mt-2 text-base md:text-lg">{getSubtitle()}</p>
             </div>
           </div>
 
@@ -173,26 +173,26 @@ const AuthForm = ({ onLoginSuccess }) => {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-5">
               {isRegister && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <div className="space-y-2 text-left">
-                    <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">First Name</label>
+                    <label className="block font-label text-[10px] sm:text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">First Name</label>
                     <input
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleChange}
-                      className="w-full py-4 px-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                      className="w-full py-3 sm:py-4 px-4 sm:px-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
                       placeholder="John"
                       required
                       autoComplete="given-name"
                     />
                   </div>
                   <div className="space-y-2 text-left">
-                    <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Last Name</label>
+                    <label className="block font-label text-[10px] sm:text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Last Name</label>
                     <input
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
-                      className="w-full py-4 px-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                      className="w-full py-3 sm:py-4 px-4 sm:px-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
                       placeholder="Doe"
                       required
                       autoComplete="family-name"
@@ -202,7 +202,7 @@ const AuthForm = ({ onLoginSuccess }) => {
               )}
 
               {isRegister && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2 text-left">
                     <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Date of Birth</label>
                     <div className="relative group">
@@ -214,7 +214,7 @@ const AuthForm = ({ onLoginSuccess }) => {
                         name="dateOfBirth"
                         value={formData.dateOfBirth}
                         onChange={handleChange}
-                        className="w-full py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                        className="w-full py-3 sm:py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
                         required
                         autoComplete="bday"
                         title="Date of Birth (DD/MM/YYYY)"
@@ -232,7 +232,7 @@ const AuthForm = ({ onLoginSuccess }) => {
                         name="phonenumber"
                         value={formData.phonenumber}
                         onChange={handleChange}
-                        className="w-full py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                        className="w-full py-3 sm:py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
                         placeholder="9944171692"
                         required
                         autoComplete="tel"
@@ -253,7 +253,7 @@ const AuthForm = ({ onLoginSuccess }) => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                    className="w-full py-3 sm:py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
                     placeholder="gourmet@savorandstem.com"
                     required
                     autoComplete="email"
@@ -279,8 +279,8 @@ const AuthForm = ({ onLoginSuccess }) => {
               {(isLogin || isRegister || isResetPassword) && (
                 <div className="space-y-2 text-left">
                   <div className="flex justify-between items-center ml-1">
-                    <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant">{isResetPassword ? 'New Password' : 'Password'}</label>
-                    {isLogin && <button type="button" onClick={() => switchMode('forgot-password')} className="text-[11px] font-bold uppercase tracking-widest text-primary hover:text-primary-fixed transition-colors">Forgot Password?</button>}
+                    <label className="block font-label text-[10px] sm:text-xs font-bold uppercase tracking-widest text-on-surface-variant">{isResetPassword ? 'New Password' : 'Password'}</label>
+                    {isLogin && <button type="button" onClick={() => switchMode('forgot-password')} className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-primary hover:text-primary-fixed transition-colors">Forgot Password?</button>}
                   </div>
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
@@ -291,7 +291,7 @@ const AuthForm = ({ onLoginSuccess }) => {
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full py-4 pl-14 pr-14 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                      className="w-full py-3 sm:py-4 pl-14 pr-14 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
                       placeholder="••••••••"
                       required
                       autoComplete={isLogin ? "current-password" : "new-password"}
@@ -319,7 +319,7 @@ const AuthForm = ({ onLoginSuccess }) => {
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="w-full py-4 pl-14 pr-14 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
+                      className="w-full py-3 sm:py-4 pl-14 pr-14 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
                       placeholder="••••••••"
                       required
                       autoComplete="new-password"

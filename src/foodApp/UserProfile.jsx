@@ -188,7 +188,7 @@ const UserProfile = ({ onLogout }) => {
           onClick={() => { setIsModalOpen(false); setIsEditing(false); setSaveError(''); }}
         >
           <div
-            className="relative bg-surface rounded-[32px] shadow-2xl border border-outline-variant/10 p-8 max-w-sm w-full animate-in zoom-in-95 duration-300 flex flex-col items-center gap-6 max-h-[90vh] overflow-y-auto"
+            className="relative bg-surface rounded-[32px] shadow-2xl border border-outline-variant/10 p-6 md:p-8 max-w-sm w-full animate-in zoom-in-95 duration-300 flex flex-col items-center gap-6 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -290,47 +290,47 @@ const UserProfile = ({ onLogout }) => {
               )}
 
               <div className="space-y-3">
-                {/* First Name */}
-                <div className="flex justify-between items-center text-sm gap-4">
-                  <span className="text-on-surface-variant font-medium min-w-[80px]">First Name</span>
-                  {isEditing ? (
-                    <input
-                      name="firstName"
-                      value={editData.firstName}
-                      onChange={handleEditChange}
-                      className={inputClass}
-                      placeholder="First name"
-                    />
-                  ) : (
-                    <span className="text-on-surface font-bold capitalize text-right">{user.firstName}</span>
-                  )}
-                </div>
-
-                {/* Last Name */}
-                <div className="flex justify-between items-center text-sm gap-4">
-                  <span className="text-on-surface-variant font-medium min-w-[80px]">Last Name</span>
-                  {isEditing ? (
-                    <input
-                      name="lastName"
-                      value={editData.lastName}
-                      onChange={handleEditChange}
-                      className={inputClass}
-                      placeholder="Last name"
-                    />
-                  ) : (
-                    <span className="text-on-surface font-bold capitalize text-right">{user.lastName}</span>
-                  )}
+                {/* Name Row: Side-by-side on mobile */}
+                <div className="flex justify-between items-start text-sm gap-6 pb-2 border-b border-outline-variant/5">
+                  <div className="flex-1 flex flex-col gap-1">
+                    <span className="text-on-surface-variant font-medium text-[10px] uppercase tracking-wider">First Name</span>
+                    {isEditing ? (
+                      <input
+                        name="firstName"
+                        value={editData.firstName}
+                        onChange={handleEditChange}
+                        className={inputClass}
+                        placeholder="First"
+                      />
+                    ) : (
+                      <span className="text-on-surface font-bold capitalize truncate">{user.firstName}</span>
+                    )}
+                  </div>
+                  <div className="flex-1 flex flex-col gap-1 text-right">
+                    <span className="text-on-surface-variant font-medium text-[10px] uppercase tracking-wider text-right">Last Name</span>
+                    {isEditing ? (
+                      <input
+                        name="lastName"
+                        value={editData.lastName}
+                        onChange={handleEditChange}
+                        className={inputClass}
+                        placeholder="Last"
+                      />
+                    ) : (
+                      <span className="text-on-surface font-bold capitalize truncate inline-block w-full">{user.lastName}</span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Email — read only, no edit */}
-                <div className="flex justify-between items-center text-sm gap-4">
-                  <span className="text-on-surface-variant font-medium min-w-[80px]">Email</span>
-                  <span className="text-on-surface-variant text-right text-xs truncate max-w-[160px]">{user.email}</span>
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center text-sm gap-1 sm:gap-4 py-1 border-t border-outline-variant/5 pt-3">
+                  <span className="text-on-surface-variant font-medium shrink-0 min-w-[80px]">Email</span>
+                  <span className="text-on-surface-variant sm:text-right text-xs truncate">{user.email}</span>
                 </div>
 
                 {/* Date of Birth */}
-                <div className="flex justify-between items-center text-sm gap-4">
-                  <span className="text-on-surface-variant font-medium min-w-[80px]">Birthday</span>
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center text-sm gap-1 sm:gap-4 py-1">
+                  <span className="text-on-surface-variant font-medium shrink-0 min-w-[80px]">Birthday</span>
                   {isEditing ? (
                     <input
                       type="date"
@@ -341,15 +341,15 @@ const UserProfile = ({ onLogout }) => {
                       title="DD/MM/YYYY"
                     />
                   ) : (
-                    <span className="text-on-surface font-bold text-right">
+                    <span className="text-on-surface font-bold sm:text-right whitespace-nowrap">
                       {formatDateToDisplay(user.dateOfBirth || user['Date-Of-Birth']) || <span className="text-on-surface-variant opacity-50 font-normal">Not provided</span>}
                     </span>
                   )}
                 </div>
 
                 {/* Phone Number */}
-                <div className="flex justify-between items-center text-sm gap-4">
-                  <span className="text-on-surface-variant font-medium min-w-[80px]">Phone</span>
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center text-sm gap-1 sm:gap-4 py-1">
+                  <span className="text-on-surface-variant font-medium shrink-0 min-w-[80px]">Phone</span>
                   {isEditing ? (
                     <input
                       type="tel"
@@ -360,7 +360,7 @@ const UserProfile = ({ onLogout }) => {
                       placeholder="Phone number"
                     />
                   ) : (
-                    <span className="text-on-surface font-bold text-right">
+                    <span className="text-on-surface font-bold sm:text-right whitespace-nowrap">
                       {user.phoneNumber || user.phonenumber || <span className="text-on-surface-variant opacity-50 font-normal">Not provided</span>}
                     </span>
                   )}
@@ -369,7 +369,7 @@ const UserProfile = ({ onLogout }) => {
             </div>
 
 
- 
+
             {/* Logout */}
             <button
               onClick={onLogout}
