@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { registerUser, loginUser, forgotPassword, resetPassword } from '../utils/api';
+import { registerUser, loginUser, forgotPasswordOTP, resetPasswordOTP } from '../utils/api';
 
 const initialState = {
   authMode: 'login',
@@ -87,14 +87,14 @@ const AuthForm = ({ onLoginSuccess }) => {
           if (onLoginSuccess) onLoginSuccess(data.user || data.admin || data);
         }
       } else if (isForgotPassword) {
-        data = await forgotPassword(formData.email);
+        data = await forgotPasswordOTP(formData.email);
         dispatch({ type: 'SWITCH_MODE', payload: 'reset-password' });
-        dispatch({ type: 'SET_SUCCESS', payload: data.message || 'Reset link sent to your email.' });
+        dispatch({ type: 'SET_SUCCESS', payload: data.message || 'Reset code sent to your email.' });
       } else if (isResetPassword) {
         if (formData.password !== formData.confirmPassword) {
           throw new Error('Passwords do not match');
         }
-        data = await resetPassword(formData.resetToken, formData.password);
+        data = await resetPasswordOTP(formData.email, formData.resetToken, formData.password);
         dispatch({ type: 'SWITCH_MODE', payload: 'login' });
         dispatch({ type: 'SET_SUCCESS', payload: data.message || 'Password reset successful! Please login.' });
       }
@@ -217,6 +217,7 @@ const AuthForm = ({ onLoginSuccess }) => {
                         className="w-full py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-sm font-medium"
                         required
                         autoComplete="bday"
+                        title="Date of Birth (DD/MM/YYYY)"
                       />
                     </div>
                   </div>

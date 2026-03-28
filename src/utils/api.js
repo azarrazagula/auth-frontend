@@ -129,6 +129,48 @@ export const resetPassword = async (token, newPassword) => {
   }
 };
 
+export const forgotPasswordOTP = async (email) => {
+  try {
+    const response = await fetch(`${BASE_URL}/forgot-password-code`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to send reset code");
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetPasswordOTP = async (email, otp, newPassword) => {
+  try {
+    const response = await fetch(`${BASE_URL}/reset-password-code`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ email, otp, password: newPassword }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to reset password");
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getUserProfile = async () => {
   try {
     const token = localStorage.getItem("accessToken");

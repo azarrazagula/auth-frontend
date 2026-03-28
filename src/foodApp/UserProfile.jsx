@@ -110,6 +110,23 @@ const UserProfile = ({ onLogout }) => {
     });
   };
 
+  const formatDateToDisplay = (dateString) => {
+    if (!dateString) return null;
+    try {
+      // Handles both ISO/yyyy-mm-dd and other formats
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString; // Return original if invalid
+
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+
+      return `${day}/${month}/${year}`;
+    } catch (e) {
+      return dateString;
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center">
@@ -321,10 +338,11 @@ const UserProfile = ({ onLogout }) => {
                       value={editData.dateOfBirth}
                       onChange={handleEditChange}
                       className={inputClass}
+                      title="DD/MM/YYYY"
                     />
                   ) : (
                     <span className="text-on-surface font-bold text-right">
-                      {user.dateOfBirth || user['Date-Of-Birth'] || <span className="text-on-surface-variant opacity-50 font-normal">Not provided</span>}
+                      {formatDateToDisplay(user.dateOfBirth || user['Date-Of-Birth']) || <span className="text-on-surface-variant opacity-50 font-normal">Not provided</span>}
                     </span>
                   )}
                 </div>
