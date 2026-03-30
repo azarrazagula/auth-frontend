@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { submitBilling } from '../utils/api';
+import PaymentGateway from '../payment/PaymentGateway';
 
 const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
   const [billingInfo, setBillingInfo] = useState({
     fullName: '',
     email: '',
@@ -29,8 +31,8 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
     setIsSubmitting(true);
     try {
       await submitBilling(billingInfo);
-      alert(`Checkout successful for $${total.toFixed(2)}!\nBilling Address: ${billingInfo.address}, ${billingInfo.city}`);
-      onClose();
+      // Billing saved — open the payment gateway
+      setShowPayment(true);
     } catch (error) {
       console.error('Checkout error:', error);
       alert(error.message || 'There was an error processing your checkout.');
@@ -39,7 +41,23 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
     }
   };
 
+  const amountPaise = Math.round(total * 100);
+
   return (
+    <>
+    {/* ── Payment Gateway modal ── */}
+    {showPayment && (
+      <div style={{ position: 'fixed', inset: 0, zIndex: 100 }}>
+        <PaymentGateway
+          amount={amountPaise}
+          description={`Food Order for ${billingInfo.fullName}`}
+          currency="INR"
+          onSuccess={() => { setShowPayment(false); onClose(); }}
+          onCancel={() => setShowPayment(false)}
+        />
+      </div>
+    )}
+
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-surface/80 backdrop-blur-sm p-4">
       <div className="w-full max-w-lg bg-surface max-h-[90vh] shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300 rounded-[32px] border border-outline-variant/10">
 
@@ -239,6 +257,7 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

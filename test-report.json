@@ -1,0 +1,146 @@
+{
+  "testReport": {
+    "projectName": "auth-frontend",
+    "componentName": "LandingPage",
+    "testFile": "src/foodApp/LandingPage.test.jsx",
+    "generatedDate": "2026-03-28",
+    "summary": {
+      "status": "PASSED",
+      "totalTests": 27,
+      "passedTests": 27,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "successRate": "100%"
+    },
+    "coverage": {
+      "landingPageComponent": {
+        "statements": "97.77%",
+        "branches": "90.47%",
+        "functions": "100%",
+        "lines": "100%",
+        "uncoveredLines": "55-56"
+      },
+      "mockData": {
+        "statements": "100%",
+        "branches": "100%",
+        "functions": "100%",
+        "lines": "100%"
+      },
+      "api": {
+        "statements": "16.48%",
+        "branches": "4.34%",
+        "functions": "9.09%",
+        "lines": "16.48%"
+      }
+    },
+    "testSuites": [
+      {
+        "name": "Rendering",
+        "total": 4,
+        "passed": 4,
+        "tests": [
+          "renders landing page header with logo and title",
+          "renders hero section with main heading",
+          "renders shopping cart button",
+          "renders user profile component"
+        ]
+      },
+      {
+        "name": "Loading State",
+        "total": 2,
+        "passed": 2,
+        "tests": [
+          "displays loading state initially",
+          "hides loading state after food items are fetched"
+        ]
+      },
+      {
+        "name": "Food Items",
+        "total": 5,
+        "passed": 5,
+        "tests": [
+          "fetches and displays food items from API",
+          "displays fallback mock data when API fails",
+          "displays error message when API fails",
+          "normalizes food item IDs (handles _id from backend)",
+          "handles empty food items array"
+        ]
+      },
+      {
+        "name": "Cart Functionality",
+        "total": 10,
+        "passed": 10,
+        "tests": [
+          "does not display cart sidebar initially",
+          "opens cart sidebar when cart button is clicked",
+          "adds item to cart when add to cart button is clicked",
+          "updates item quantity when same item is added again",
+          "displays cart item count badge",
+          "updates cart count correctly with multiple items",
+          "closes cart sidebar when close button is clicked",
+          "updates item quantity in cart",
+          "removes item from cart",
+          "prevents quantity from going below 1"
+        ]
+      },
+      {
+        "name": "User Interaction",
+        "total": 1,
+        "passed": 1,
+        "tests": ["calls onLogout when logout button is clicked"]
+      },
+      {
+        "name": "Edge Cases",
+        "total": 3,
+        "passed": 3,
+        "tests": [
+          "handles null or undefined props gracefully",
+          "handles API response without success flag",
+          "renders correctly with empty cart items initially"
+        ]
+      },
+      {
+        "name": "Component Integration",
+        "total": 2,
+        "passed": 2,
+        "tests": [
+          "correctly passes props to child components",
+          "fetches data on component mount"
+        ]
+      }
+    ],
+    "executionMetrics": {
+      "executionTime": "1.2 seconds",
+      "framework": "Jest",
+      "testingLibrary": "React Testing Library",
+      "reactVersion": "19.2.4",
+      "reactScriptsVersion": "5.0.1"
+    },
+    "featuresTestedCount": {
+      "rendering": 7,
+      "dataManagement": 5,
+      "userInteractions": 6,
+      "stateManagement": 4,
+      "businessLogic": 5
+    },
+    "mockedComponents": ["FoodItem", "Cart", "UserProfile"],
+    "mockedAPIs": ["getFoodItems"],
+    "qualityMetrics": {
+      "assertionCount": "70+",
+      "componentRenderTests": 7,
+      "domQueryTests": 40,
+      "stateChangeTests": 20,
+      "eventTriggerTests": 8
+    },
+    "recommendations": [
+      "Add performance testing for large datasets",
+      "Implement accessibility testing",
+      "Add visual regression testing",
+      "Include E2E testing with Cypress",
+      "Increase branch coverage to 95%+",
+      "Add snapshot tests for stable UI",
+      "Test responsive breakpoints",
+      "Add console warning/error checks"
+    ]
+  }
+}
