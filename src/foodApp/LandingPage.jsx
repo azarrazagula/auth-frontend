@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FoodItem from './FoodItem';
 import Cart from './Cart';
 import UserProfile from './UserProfile';
+import Footer from './footer/Footer';
 import { getFoodItems } from '../utils/api';
 import { FOOD_ITEMS as MOCK_FOOD_ITEMS } from './mockData';
 
@@ -21,7 +22,7 @@ const LandingPage = ({ onLogout, user }) => {
           // Normalize IDs if needed (backend uses _id, mock uses id)
           const items = result.data.map(item => ({
             ...item,
-            id: item._id || item.id 
+            id: item._id || item.id
           }));
           setFoodItems(items);
         } else {
@@ -67,7 +68,7 @@ const LandingPage = ({ onLogout, user }) => {
   const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+    <div className="min-h-screen bg-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col">
       {/* Navigation */}
       <nav className="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,7 +78,7 @@ const LandingPage = ({ onLogout, user }) => {
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
                 <span className="material-symbols-outlined text-on-primary text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant</span>
               </div>
-              <span className="font-headline text-lg sm:text-2xl font-black tracking-tighter text-on-surface truncate max-w-[150px] sm:max-w-none">No Bail & No Oil</span>
+              <span className="font-headline text-lg sm:text-2xl font-black tracking-tighter text-on-surface truncate max-w-[150px] sm:max-w-none">Eat Well</span>
             </div>
 
             {/* Actions */}
@@ -150,6 +151,8 @@ const LandingPage = ({ onLogout, user }) => {
           onClearCart={handleClearCart}
         />
       )}
+
+      <Footer />
 
       {/* Background Decor */}
       <div className="fixed top-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>

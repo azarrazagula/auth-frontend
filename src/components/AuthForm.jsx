@@ -161,7 +161,7 @@ const AuthForm = ({ onLoginSuccess }) => {
               <div className="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center shadow-lg shadow-primary/20">
                 <span className="material-symbols-outlined text-on-primary-container text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant_menu</span>
               </div>
-              <span className="font-headline text-3xl font-black tracking-tighter text-on-surface">No Bail & No Oil</span>
+              <span className="font-headline text-3xl font-black tracking-tighter text-on-surface">Eat Well</span>
             </div>
             <div className="pt-2 md:pt-6">
               <h2 className="font-headline text-3xl md:text-4xl font-bold tracking-tight text-on-surface">{getTitle()}</h2>
