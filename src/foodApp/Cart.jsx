@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { submitBilling } from '../utils/api';
 import PaymentGateway from '../payment/PaymentGateway';
 
-const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
+const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose, onClearCart }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [billingInfo, setBillingInfo] = useState({
@@ -52,7 +52,11 @@ const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => {
           amount={amountPaise}
           description={`Food Order for ${billingInfo.fullName}`}
           currency="INR"
-          onSuccess={() => { setShowPayment(false); onClose(); }}
+          onSuccess={() => { 
+            setShowPayment(false); 
+            if (onClearCart) onClearCart();
+            onClose(); 
+          }}
           onCancel={() => setShowPayment(false)}
         />
       </div>

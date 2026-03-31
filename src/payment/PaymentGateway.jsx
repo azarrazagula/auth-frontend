@@ -499,12 +499,13 @@ const PaymentGateway = ({
         razorpay_order_id: mockRes.data.razorpay_order_id,
         razorpay_payment_id: mockRes.data.razorpay_payment_id,
         razorpay_signature: mockRes.data.razorpay_signature,
+        paymentMethod: method,
       });
 
       if (verifyRes.success) {
         setPaymentId(verifyRes.data.razorpayPaymentId || mockRes.data.razorpay_payment_id);
         setStatus('success');
-        onSuccess && onSuccess(verifyRes.data);
+        // Do not call onSuccess here, let the user see the success modal first
       } else {
         throw new Error('Verification failed');
       }
@@ -550,8 +551,8 @@ const PaymentGateway = ({
             <div className="clay-success-title">Payment Successful!</div>
             <div className="clay-success-sub">Your order is confirmed 🎉</div>
             <div className="clay-success-pid">ID: {paymentId}</div>
-            <button className="clay-reset-btn" onClick={handleReset}>
-              🔄 New Payment
+            <button className="clay-reset-btn" onClick={() => onSuccess ? onSuccess() : handleReset()}>
+              Done
             </button>
           </div>
         </div>
@@ -688,9 +689,14 @@ const PaymentGateway = ({
             <button
               className="clay-pay-btn"
               style={{ marginTop: 20 }}
-              onClick={() => alert(`${method.toUpperCase()} payment flow not set up in testing mode`)}
+              onClick={handlePay}
+              disabled={status === 'paying'}
             >
-              Continue with {METHODS.find(m => m.id === method)?.label}
+              {status === 'paying' ? (
+                <><div className="clay-spinner" /> Processing…</>
+              ) : (
+                <>Continue with {METHODS.find(m => m.id === method)?.label}</>
+              )}
             </button>
           </div>
         )}

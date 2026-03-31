@@ -60,6 +60,10 @@ const LandingPage = ({ onLogout, user }) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
+  const handleClearCart = () => {
+    setCartItems([]);
+  };
+
   const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -143,6 +147,7 @@ const LandingPage = ({ onLogout, user }) => {
           onUpdateQuantity={handleUpdateQuantity}
           onRemoveItem={handleRemoveItem}
           onClose={() => setIsCartOpen(false)}
+          onClearCart={handleClearCart}
         />
       )}
 
