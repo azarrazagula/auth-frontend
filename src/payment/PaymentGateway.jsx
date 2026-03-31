@@ -425,6 +425,67 @@ const injectStyles = () => {
       color: white;
       letter-spacing: 1px;
     }
+
+    /* ── Responsive Mobile Adjustments (375px) ────────────────── */
+    @media (max-width: 400px) {
+      .clay-root { padding: 16px; }
+      
+      .clay-card {
+        padding: 28px 20px 24px;
+        border-radius: 28px;
+      }
+
+      .clay-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .card-preview {
+        height: 160px;
+        padding: 18px 20px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+      }
+
+      .card-chip {
+        width: 36px;
+        height: 28px;
+        margin-bottom: 12px;
+      }
+
+      .card-number-preview {
+        font-size: 18px;
+        letter-spacing: 2.5px;
+        margin-bottom: 12px;
+      }
+
+      .card-value { font-size: 13px; }
+      .card-circle { width: 28px; height: 28px; }
+
+      .method-switcher { gap: 8px; }
+      .method-btn { padding: 8px 4px; border-radius: 12px; font-size: 10px; }
+      .method-emoji { font-size: 18px; }
+
+      .clay-input { padding: 11px 14px; font-size: 14px; border-radius: 12px; }
+      .clay-label { font-size: 10px; }
+
+      .clay-pay-btn {
+        padding: 14px;
+        font-size: 18px;
+        border-radius: 16px;
+      }
+
+      .clay-overlay-card {
+        padding: 32px 24px;
+        border-radius: 28px;
+        width: 90%;
+      }
+
+      .clay-success-icon { width: 64px; height: 64px; font-size: 28px; }
+      .clay-success-title { font-size: 22px; }
+      .clay-success-sub { font-size: 13px; margin-bottom: 20px; }
+      .clay-success-pid { font-size: 11px; padding: 8px 14px; }
+    }
   `;
   document.head.appendChild(style);
 };

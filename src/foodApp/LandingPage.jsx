@@ -73,28 +73,28 @@ const LandingPage = ({ onLogout, user }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
-                <span className="material-symbols-outlined text-on-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
+                <span className="material-symbols-outlined text-on-primary text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant</span>
               </div>
-              <span className="font-headline text-2xl font-black tracking-tighter text-on-surface">No Bail & No Oil</span>
+              <span className="font-headline text-lg sm:text-2xl font-black tracking-tighter text-on-surface truncate max-w-[150px] sm:max-w-none">No Bail & No Oil</span>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-2 text-on-surface-variant hover:text-on-surface transition-colors"
+                className="relative p-1.5 sm:p-2 text-on-surface-variant hover:text-on-surface transition-colors"
                 aria-label="Open Cart"
               >
-                <span className="material-symbols-outlined text-3xl">shopping_cart</span>
+                <span className="material-symbols-outlined text-2xl sm:text-3xl">shopping_cart</span>
                 {cartItemCount > 0 && (
-                  <span className="absolute top-0 right-0 w-5 h-5 bg-primary rounded-full text-on-primary flex items-center justify-center text-[10px] font-bold shadow-sm">
+                  <span className="absolute top-0 right-0 w-4 h-4 sm:w-5 sm:h-5 bg-primary rounded-full text-on-primary flex items-center justify-center text-[8px] sm:text-[10px] font-bold shadow-sm">
                     {cartItemCount}
                   </span>
                 )}
               </button>
-              <div className="w-px h-6 bg-outline-variant/30"></div>
+              <div className="w-px h-5 sm:h-6 bg-outline-variant/30"></div>
               <UserProfile onLogout={onLogout} />
             </div>
           </div>
@@ -103,15 +103,15 @@ const LandingPage = ({ onLogout, user }) => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
-        <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high border border-outline-variant/20">
-            <span className="material-symbols-outlined text-secondary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-            <span className="font-label text-xs uppercase tracking-[0.2em] font-bold text-on-surface">Curated Menu</span>
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16 space-y-3 sm:space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-surface-container-high border border-outline-variant/20">
+            <span className="material-symbols-outlined text-secondary text-xs sm:text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+            <span className="font-label text-[10px] sm:text-xs uppercase tracking-[0.2em] font-bold text-on-surface">Curated Menu</span>
           </div>
-          <h1 className="font-headline text-5xl font-black tracking-tight text-on-surface">
+          <h1 className="font-headline text-3xl sm:text-5xl font-black tracking-tight text-on-surface">
             Experience Culinary <span className="text-primary italic">Excellence</span>
           </h1>
-          <p className="font-body text-lg text-on-surface-variant leading-relaxed">
+          <p className="font-body text-pretty text-sm sm:text-lg text-on-surface-variant leading-relaxed">
             Select from our exclusive range of gourmet dishes, prepared by world-class chefs.
           </p>
         </div>
