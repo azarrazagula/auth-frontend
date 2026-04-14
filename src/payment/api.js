@@ -1,4 +1,4 @@
-import { API_ROOT } from '../utils/api';
+import { API_ROOT, apiRequest } from '../utils/api';
 
 const PAYMENT_API_BASE = `${API_ROOT}/api/payment`;
 
@@ -9,25 +9,10 @@ const PAYMENT_API_BASE = `${API_ROOT}/api/payment`;
  * @returns {Promise<Object>} { success, message, data: { orderId, amount, currency, description, paymentRecordId } }
  */
 export const createPaymentOrder = async (orderData) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-    const response = await fetch(`${PAYMENT_API_BASE}/create-order`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(orderData),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to create payment order");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${PAYMENT_API_BASE}/create-order`, {
+    method: "POST",
+    body: JSON.stringify(orderData),
+  });
 };
 
 /**
@@ -37,25 +22,10 @@ export const createPaymentOrder = async (orderData) => {
  * @returns {Promise<Object>} { success, message, data: { razorpay_order_id, razorpay_payment_id, razorpay_signature } }
  */
 export const processMockPayment = async (paymentData) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-    const response = await fetch(`${PAYMENT_API_BASE}/mock-pay`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(paymentData),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to process mock payment");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${PAYMENT_API_BASE}/mock-pay`, {
+    method: "POST",
+    body: JSON.stringify(paymentData),
+  });
 };
 
 /**
@@ -65,23 +35,9 @@ export const processMockPayment = async (paymentData) => {
  * @returns {Promise<Object>} { success, message, data: { _id, user, razorpayOrderId, razorpayPaymentId, ... } }
  */
 export const verifyPayment = async (verificationData) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-    const response = await fetch(`${PAYMENT_API_BASE}/verify`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(verificationData),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to verify payment");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${PAYMENT_API_BASE}/verify`, {
+    method: "POST",
+    body: JSON.stringify(verificationData),
+  });
 };
+

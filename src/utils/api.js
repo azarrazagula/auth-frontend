@@ -10,240 +10,158 @@ const getApiRoot = () => {
 export const API_ROOT = getApiRoot().replace(/^["']|["']$/g, "");
 export const BASE_URL = `${API_ROOT}/api/user`;
 
-export const getFoodItems = async () => {
+/**
+ * Refresh access token using HttpOnly cookie
+ */
+export const refreshToken = async () => {
   try {
-    const response = await fetch(`${API_ROOT}/api/admin/food`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const response = await fetch(`${BASE_URL}/refresh-token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
     });
 
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data.message || "Failed to fetch products");
+      throw new Error(data.message || "Failed to refresh token");
     }
-    return data; // Expected { success: true, data: [...] }
+
+    if (data.accessToken) {
+      localStorage.setItem("accessToken", data.accessToken);
+    }
+    return data.accessToken;
   } catch (error) {
+    console.error("Token refresh failed:", error);
+    localStorage.removeItem("accessToken");
+    // We don't automatically redirect here to avoid breaking the UI flow, 
+    // but the next request will fail and can be handled by the UI.
     throw error;
   }
 };
 
-export const registerUser = async ({
-  firstName,
-  lastName,
-  dateOfBirth,
-  phonenumber,
-  email,
-  password,
-  confirmPassword,
-}) => {
-  try {
-    const response = await fetch(`${BASE_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        dateOfBirth,
-        phoneNumber: phonenumber,
-        email,
-        password,
-        confirmPassword,
-      }),
-    });
+/**
+ * Generic API request helper that handles:
+ * 1. Adding Authorization header
+ * 2. Handling 401 Unauthorized by attempting a token refresh
+ * 3. Retrying the request after a successful refresh
+ */
+export const apiRequest = async (url, options = {}) => {
+  const token = localStorage.getItem("accessToken");
+  
+  const headers = {
+    "Content-Type": "application/json",
+    ...options.headers,
+  };
 
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Registration failed");
-    }
-    return data;
-  } catch (error) {
-    throw error;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
   }
+
+  let response = await fetch(url, { ...options, headers, credentials: "include" });
+
+  // If unauthorized, try to refresh token once
+  if (response.status === 401 && !options._retry) {
+    options._retry = true;
+    try {
+      const newToken = await refreshToken();
+      if (newToken) {
+        headers.Authorization = `Bearer ${newToken}`;
+        response = await fetch(url, { ...options, headers, credentials: "include" });
+      }
+    } catch (refreshError) {
+      // Refresh failed, original response will be returned or error thrown below
+      console.warn("Could not refresh token automatically.");
+    }
+  }
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || `Request failed with status ${response.status}`);
+  }
+  return data;
+};
+
+export const getFoodItems = async () => {
+  return apiRequest(`${API_ROOT}/api/admin/food`, { method: "GET" });
+};
+
+export const registerUser = async (userData) => {
+  // register and login shouldn't use apiRequest refresh logic to avoid loops
+  const response = await fetch(`${BASE_URL}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      ...userData,
+      phoneNumber: userData.phoneNumber || userData.phonenumber
+    }),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Registration failed");
+  return data;
 };
 
 export const loginUser = async (credentials) => {
-  try {
-    const response = await fetch(`${BASE_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(credentials),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Login failed");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await fetch(`${BASE_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(credentials),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Login failed");
+  return data;
 };
 
 export const forgotPassword = async (email) => {
-  try {
-    const response = await fetch(`${BASE_URL}/forgot-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ email }),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to send reset link");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${BASE_URL}/forgot-password`, {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
 };
 
 export const resetPassword = async (token, newPassword) => {
-  try {
-    const response = await fetch(`${BASE_URL}/reset-password/${token}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ password: newPassword }),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to reset password");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${BASE_URL}/reset-password/${token}`, {
+    method: "PUT",
+    body: JSON.stringify({ password: newPassword }),
+  });
 };
 
 export const forgotPasswordOTP = async (email) => {
-  try {
-    const response = await fetch(`${BASE_URL}/forgot-password-code`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ email }),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to send reset code");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${BASE_URL}/forgot-password-code`, {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
 };
 
 export const resetPasswordOTP = async (email, otp, newPassword) => {
-  try {
-    const response = await fetch(`${BASE_URL}/reset-password-code`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ email, otp, password: newPassword }),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to reset password");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${BASE_URL}/reset-password-code`, {
+    method: "PUT",
+    body: JSON.stringify({ email, otp, password: newPassword }),
+  });
 };
 
 export const getUserProfile = async () => {
-  try {
-    const token = localStorage.getItem("accessToken");
-    const response = await fetch(`${BASE_URL}/me`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      credentials: "include",
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to fetch profile");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${BASE_URL}/me`, { method: "GET" });
 };
 
 export const updateUserProfile = async (updates) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-    const response = await fetch(`${BASE_URL}/me`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        firstName: updates.firstName,
-        lastName: updates.lastName,
-        phoneNumber: updates.phonenumber,
-        dateOfBirth: updates.dateOfBirth,
-      }),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to update profile");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${BASE_URL}/me`, {
+    method: "PUT",
+    body: JSON.stringify({
+      firstName: updates.firstName,
+      lastName: updates.lastName,
+      phoneNumber: updates.phonenumber || updates.phoneNumber,
+      dateOfBirth: updates.dateOfBirth,
+      age: updates.age
+    }),
+  });
 };
 
 export const submitBilling = async (billingData) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-
-    // Explicitly using the requested endpoint for billing details
-    const response = await fetch(`${API_ROOT}/api/billing/`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(billingData),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to process billing");
-    }
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return apiRequest(`${API_ROOT}/api/billing/`, {
+    method: "POST",
+    body: JSON.stringify(billingData),
+  });
 };
+
