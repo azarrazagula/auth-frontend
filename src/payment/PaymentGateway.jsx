@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { createPaymentOrder, processMockPayment, verifyPayment } from './api';
+import { createPaymentOrder, verifyPayment } from './api';
+import { getUserProfile } from '../utils/api';
 
 /* ─── Inline styles  ──────────────────────────────────────────────────────── */
 const injectStyles = () => {
@@ -536,40 +537,87 @@ const PaymentGateway = ({
   const [status, setStatus] = useState('idle'); // idle | paying | success | error
   const [paymentId, setPaymentId] = useState('');
   const [errorMsg, setErrorMsg]   = useState('');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await getUserProfile();
+        if (res.success) setUser(res.data);
+      } catch (err) {
+        console.warn('Failed to fetch user for prefill:', err);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const displayAmount = `₹${(amount / 100).toFixed(2)}`;
 
   const handlePay = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setStatus('paying');
     setErrorMsg('');
 
     try {
       // 1. Create order
       const orderRes = await createPaymentOrder({ amount, description, currency });
-      const orderId = orderRes.data.orderId;
+      if (!orderRes.success) throw new Error(orderRes.message || 'Failed to create order');
+      
+      const orderData = orderRes.data;
 
-      // 2. Simulate payment processing
-      const mockRes = await processMockPayment({ amount, description, currency, orderId });
+      // 2. Open Razorpay Checkout
+      const options = {
+        key: orderData.keyId || process.env.REACT_APP_RAZORPAY_KEY_ID, // Use key from backend or env
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Auth App",
+        description: description,
+        order_id: orderData.orderId,
+        handler: async function (response) {
+          // 3. Verify payment
+          try {
+            setStatus('paying');
+            const verifyRes = await verifyPayment({
+              amount,
+              description,
+              currency,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              paymentMethod: method,
+            });
 
-      // 3. Verify
-      const verifyRes = await verifyPayment({
-        amount,
-        description,
-        currency,
-        razorpay_order_id: mockRes.data.razorpay_order_id,
-        razorpay_payment_id: mockRes.data.razorpay_payment_id,
-        razorpay_signature: mockRes.data.razorpay_signature,
-        paymentMethod: method,
+            if (verifyRes.success) {
+              setPaymentId(response.razorpay_payment_id);
+              setStatus('success');
+            } else {
+              throw new Error(verifyRes.message || 'Verification failed');
+            }
+          } catch (err) {
+            setErrorMsg(err.message || 'Payment verification failed');
+            setStatus('error');
+          }
+        },
+        prefill: {
+          name: user ? `${user.firstName} ${user.lastName}` : name,
+          email: user ? user.email : "",
+          contact: user ? user.phoneNumber : ""
+        },
+        theme: { color: "#7c3aed" },
+        modal: {
+          ondismiss: function() {
+            setStatus('idle');
+          }
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response) {
+        setErrorMsg(response.error.description || 'Payment failed');
+        setStatus('error');
       });
-
-      if (verifyRes.success) {
-        setPaymentId(verifyRes.data.razorpayPaymentId || mockRes.data.razorpay_payment_id);
-        setStatus('success');
-        // Do not call onSuccess here, let the user see the success modal first
-      } else {
-        throw new Error('Verification failed');
-      }
+      rzp.open();
+      
     } catch (err) {
       setErrorMsg(err.message || 'Payment failed. Please try again.');
       setStatus('error');

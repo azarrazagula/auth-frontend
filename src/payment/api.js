@@ -16,19 +16,6 @@ export const createPaymentOrder = async (orderData) => {
 };
 
 /**
- * STEP 2: Process Mock Payment
- * POST /api/payment/mock-pay
- * @param {Object} paymentData - { amount, description, currency, orderId }
- * @returns {Promise<Object>} { success, message, data: { razorpay_order_id, razorpay_payment_id, razorpay_signature } }
- */
-export const processMockPayment = async (paymentData) => {
-  return apiRequest(`${PAYMENT_API_BASE}/mock-pay`, {
-    method: "POST",
-    body: JSON.stringify(paymentData),
-  });
-};
-
-/**
  * STEP 3: Verify Payment
  * POST /api/payment/verify
  * @param {Object} verificationData - { amount, description, currency, razorpay_order_id, razorpay_payment_id, razorpay_signature }
