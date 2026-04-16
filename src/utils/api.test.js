@@ -189,7 +189,7 @@ describe("API Utility Functions", () => {
     test("requests password reset code successfully", async () => {
       const mockResponse = {
         success: true,
-        message: "Reset code sent to email",
+        message: "Verification code sent to phone",
       };
 
       global.fetch.mockResolvedValueOnce({
@@ -197,37 +197,37 @@ describe("API Utility Functions", () => {
         json: async () => mockResponse,
       });
 
-      const result = await api.forgotPasswordOTP("john@example.com");
+      const result = await api.forgotPasswordOTP("6385725727");
 
       expect(global.fetch).toHaveBeenCalledWith(
-        expect.stringContaining("/api/user/forgot-password-code"),
+        expect.stringContaining("/api/user/forgot-password"),
         expect.objectContaining({ method: "POST" }),
       );
       expect(result).toEqual(mockResponse);
     });
 
-    test("sends email in request body", async () => {
+    test("sends phoneNumber in request body", async () => {
       global.fetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ success: true }),
       });
 
-      await api.forgotPasswordOTP("test@example.com");
+      await api.forgotPasswordOTP("9944171692");
 
       const callArgs = global.fetch.mock.calls[0];
       const bodyData = JSON.parse(callArgs[1].body);
-      expect(bodyData.email).toBe("test@example.com");
+      expect(bodyData.phoneNumber).toBe("9944171692");
     });
 
     test("throws error on failed reset code request", async () => {
       global.fetch.mockResolvedValueOnce({
         ok: false,
-        json: async () => ({ message: "Email not found" }),
+        json: async () => ({ message: "Phone number not found" }),
       });
 
       await expect(
-        api.forgotPasswordOTP("unknown@example.com"),
-      ).rejects.toThrow("Email not found");
+        api.forgotPasswordOTP("1234567890"),
+      ).rejects.toThrow("Phone number not found");
     });
   });
 
@@ -244,31 +244,31 @@ describe("API Utility Functions", () => {
       });
 
       const result = await api.resetPasswordOTP(
-        "john@example.com",
-        "OTP123",
+        "6385725727",
+        "123456",
         "newpassword123",
       );
 
       expect(global.fetch).toHaveBeenCalledWith(
-        expect.stringContaining("/api/user/reset-password-code"),
+        expect.stringContaining("/api/user/reset-password"),
         expect.objectContaining({ method: "PUT" }),
       );
       expect(result).toEqual(mockResponse);
     });
 
-    test("sends email, OTP, and password in request", async () => {
+    test("sends phoneNumber, OTP, and password in request", async () => {
       global.fetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ success: true }),
       });
 
-      await api.resetPasswordOTP("test@example.com", "RESET456", "newpass");
+      await api.resetPasswordOTP("9944171692", "123456", "newpass");
 
       const callArgs = global.fetch.mock.calls[0];
       const bodyData = JSON.parse(callArgs[1].body);
 
-      expect(bodyData.email).toBe("test@example.com");
-      expect(bodyData.otp).toBe("RESET456");
+      expect(bodyData.phoneNumber).toBe("9944171692");
+      expect(bodyData.otp).toBe("123456");
       expect(bodyData.password).toBe("newpass");
     });
 
@@ -279,7 +279,7 @@ describe("API Utility Functions", () => {
       });
 
       await expect(
-        api.resetPasswordOTP("test@example.com", "WRONG", "newpass"),
+        api.resetPasswordOTP("9944171692", "WRONG", "newpass"),
       ).rejects.toThrow("Invalid or expired OTP");
     });
   });

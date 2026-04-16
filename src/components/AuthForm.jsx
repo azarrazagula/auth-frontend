@@ -26,7 +26,11 @@ const authReducer = (state, action) => {
       return {
         ...initialState,
         authMode: action.payload,
-        formData: { ...initialState.formData, email: state.formData.email },
+        formData: { 
+          ...initialState.formData, 
+          email: state.formData.email,
+          phonenumber: state.formData.phonenumber 
+        },
       };
     case 'SET_FIELD':
       return {
@@ -79,22 +83,18 @@ const AuthForm = ({ onLoginSuccess }) => {
           ...formData,
           phoneNumber: formData.phonenumber,
         };
-        data = await registerUser(registrationData);
+        await registerUser(registrationData);
         dispatch({ type: 'SWITCH_MODE', payload: 'login' });
-        dispatch({ type: 'SET_SUCCESS', payload: 'Registration successful!' });
-        if (data.accessToken) {
-          localStorage.setItem('accessToken', data.accessToken);
-          if (onLoginSuccess) onLoginSuccess(data.user || data.admin || data);
-        }
+        dispatch({ type: 'SET_SUCCESS', payload: 'Registration successful! Please login with your email and password.' });
       } else if (isForgotPassword) {
-        data = await forgotPasswordOTP(formData.email);
+        data = await forgotPasswordOTP(formData.phonenumber);
         dispatch({ type: 'SWITCH_MODE', payload: 'reset-password' });
-        dispatch({ type: 'SET_SUCCESS', payload: data.message || 'Reset code sent to your email.' });
+        dispatch({ type: 'SET_SUCCESS', payload: data.message || 'Verification code sent to your phone.' });
       } else if (isResetPassword) {
         if (formData.password !== formData.confirmPassword) {
           throw new Error('Passwords do not match');
         }
-        data = await resetPasswordOTP(formData.email, formData.resetToken, formData.password);
+        data = await resetPasswordOTP(formData.phonenumber, formData.resetToken, formData.password);
         dispatch({ type: 'SWITCH_MODE', payload: 'login' });
         dispatch({ type: 'SET_SUCCESS', payload: data.message || 'Password reset successful! Please login.' });
       }
@@ -114,7 +114,7 @@ const AuthForm = ({ onLoginSuccess }) => {
   const getSubtitle = () => {
     if (isLogin) return 'Continue your culinary journey.';
     if (isRegister) return 'Join our exclusive community.';
-    if (isForgotPassword) return 'Enter your email to receive a reset code.';
+    if (isForgotPassword) return 'Enter your phone number to receive a reset code.';
     return 'Enter the code and your new password.';
   };
 
@@ -122,7 +122,7 @@ const AuthForm = ({ onLoginSuccess }) => {
     if (loading) return 'Processing...';
     if (isLogin) return 'Sign In';
     if (isRegister) return 'Create Account';
-    if (isForgotPassword) return 'Send Reset Link';
+    if (isForgotPassword) return 'Send Reset Code';
     return 'Reset Password';
   };
 
@@ -242,24 +242,47 @@ const AuthForm = ({ onLoginSuccess }) => {
                 </div>
               )}
 
-              <div className="space-y-2 text-left">
-                <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Email Address</label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                    <span className="material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors text-xl">alternate_email</span>
+              {(isLogin || isRegister) && (
+                <div className="space-y-2 text-left">
+                  <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Email Address</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                      <span className="material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors text-xl">alternate_email</span>
+                    </div>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full py-3 sm:py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
+                      placeholder="gourmet@savorandstem.com"
+                      required
+                      autoComplete="email"
+                    />
                   </div>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full py-3 sm:py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
-                    placeholder="gourmet@savorandstem.com"
-                    required
-                    autoComplete="email"
-                  />
                 </div>
-              </div>
+              )}
+
+              {isForgotPassword && (
+                <div className="space-y-2 text-left">
+                  <label className="block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Phone Number</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                      <span className="material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors text-xl">phone</span>
+                    </div>
+                    <input
+                      type="tel"
+                      name="phonenumber"
+                      value={formData.phonenumber}
+                      onChange={handleChange}
+                      className="w-full py-3 sm:py-4 pl-14 pr-5 bg-surface-container border-none rounded-full text-on-surface placeholder:text-outline-variant/60 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-high transition-all text-xs sm:text-sm font-medium"
+                      placeholder="9944171692"
+                      required
+                      autoComplete="tel"
+                    />
+                  </div>
+                </div>
+              )}
 
               {isResetPassword && (
                 <div className="space-y-2 text-left">

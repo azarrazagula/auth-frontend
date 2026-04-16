@@ -20,7 +20,7 @@ describe("AuthForm Component", () => {
       user: { id: 2, email: "newuser@example.com", name: "New User" },
     });
     api.forgotPasswordOTP.mockResolvedValue({
-      message: "Reset code sent to your email.",
+      message: "Verification code sent to phone",
     });
     api.resetPasswordOTP.mockResolvedValue({
       message: "Password reset successful! Please login.",
@@ -299,7 +299,7 @@ describe("AuthForm Component", () => {
 
       expect(screen.getByText("Forgot Password")).toBeInTheDocument();
       expect(
-        screen.getByText("Enter your email to receive a reset code."),
+        screen.getByText("Enter your phone number to receive a reset code."),
       ).toBeInTheDocument();
     });
 
@@ -308,18 +308,16 @@ describe("AuthForm Component", () => {
       const forgotPasswordButton = screen.getByText("Forgot Password?");
       fireEvent.click(forgotPasswordButton);
 
-      const emailInput = screen.getByPlaceholderText(
-        "gourmet@savorandstem.com",
-      );
+      const phoneInput = screen.getByPlaceholderText("9944171692");
       const submitButton = screen.getByRole("button", {
-        name: /Send Reset Link/i,
+        name: /Send Reset Code/i,
       });
 
-      fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+      fireEvent.change(phoneInput, { target: { value: "6385725727" } });
       fireEvent.click(submitButton);
 
       await waitFor(() => {
-        expect(api.forgotPasswordOTP).toHaveBeenCalledWith("test@example.com");
+        expect(api.forgotPasswordOTP).toHaveBeenCalledWith("6385725727");
       });
     });
 
@@ -328,19 +326,17 @@ describe("AuthForm Component", () => {
       const forgotPasswordButton = screen.getByText("Forgot Password?");
       fireEvent.click(forgotPasswordButton);
 
-      const emailInput = screen.getByPlaceholderText(
-        "gourmet@savorandstem.com",
-      );
+      const phoneInput = screen.getByPlaceholderText("9944171692");
       const submitButton = screen.getByRole("button", {
-        name: /Send Reset Link/i,
+        name: /Send Reset Code/i,
       });
 
-      fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+      fireEvent.change(phoneInput, { target: { value: "6385725727" } });
       fireEvent.click(submitButton);
 
       await waitFor(() => {
         expect(
-          screen.getByText("Reset code sent to your email."),
+          screen.getByText("Verification code sent to phone"),
         ).toBeInTheDocument();
       });
     });
@@ -350,14 +346,12 @@ describe("AuthForm Component", () => {
       const forgotPasswordButton = screen.getByText("Forgot Password?");
       fireEvent.click(forgotPasswordButton);
 
-      const emailInput = screen.getByPlaceholderText(
-        "gourmet@savorandstem.com",
-      );
+      const phoneInput = screen.getByPlaceholderText("9944171692");
       const submitButton = screen.getByRole("button", {
-        name: /Send Reset Link/i,
+        name: /Send Reset Code/i,
       });
 
-      fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+      fireEvent.change(phoneInput, { target: { value: "6385725727" } });
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -375,14 +369,12 @@ describe("AuthForm Component", () => {
       const forgotPasswordButton = screen.getByText("Forgot Password?");
       fireEvent.click(forgotPasswordButton);
 
-      const emailInput = screen.getByPlaceholderText(
-        "gourmet@savorandstem.com",
-      );
+      const phoneInput = screen.getByPlaceholderText("9944171692");
       const submitButton = screen.getByRole("button", {
-        name: /Send Reset Link/i,
+        name: /Send Reset Code/i,
       });
 
-      fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+      fireEvent.change(phoneInput, { target: { value: "6385725727" } });
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -397,14 +389,12 @@ describe("AuthForm Component", () => {
       const forgotPasswordButton = screen.getByText("Forgot Password?");
       fireEvent.click(forgotPasswordButton);
 
-      const emailInput = screen.getByPlaceholderText(
-        "gourmet@savorandstem.com",
-      );
+      const phoneInput = screen.getByPlaceholderText("9944171692");
       const submitButton1 = screen.getByRole("button", {
-        name: /Send Reset Link/i,
+        name: /Send Reset Code/i,
       });
 
-      fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+      fireEvent.change(phoneInput, { target: { value: "6385725727" } });
       fireEvent.click(submitButton1);
 
       await waitFor(() => {
@@ -439,14 +429,12 @@ describe("AuthForm Component", () => {
       const forgotPasswordButton = screen.getByText("Forgot Password?");
       fireEvent.click(forgotPasswordButton);
 
-      const emailInput = screen.getByPlaceholderText(
-        "gourmet@savorandstem.com",
-      );
+      const phoneInput = screen.getByPlaceholderText("9944171692");
       const submitButton1 = screen.getByRole("button", {
-        name: /Send Reset Link/i,
+        name: /Send Reset Code/i,
       });
 
-      fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+      fireEvent.change(phoneInput, { target: { value: "6385725727" } });
       fireEvent.click(submitButton1);
 
       await waitFor(() => {
@@ -674,10 +662,26 @@ describe("AuthForm Component", () => {
       const forgotPasswordButton = screen.getByText("Forgot Password?");
       fireEvent.click(forgotPasswordButton);
 
-      const forgotEmailInput = screen.getByPlaceholderText(
-        "gourmet@savorandstem.com",
-      );
-      expect(forgotEmailInput).toHaveValue("test@example.com");
+      // Now it should show phone number field
+      expect(screen.getByPlaceholderText("9944171692")).toBeInTheDocument();
+    });
+
+    test("hides phone number during reset password though it is persisted", async () => {
+      render(<AuthForm onLoginSuccess={mockOnLoginSuccess} />);
+      const forgotPasswordButton = screen.getByText("Forgot Password?");
+      fireEvent.click(forgotPasswordButton);
+
+      const phoneInput = screen.getByPlaceholderText("9944171692");
+      fireEvent.change(phoneInput, { target: { value: "6385725727" } });
+
+      const submitButton = screen.getByRole("button", {
+        name: /Send Reset Code/i,
+      });
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(screen.queryByPlaceholderText("9944171692")).not.toBeInTheDocument();
+      });
     });
   });
 

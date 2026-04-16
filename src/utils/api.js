@@ -113,33 +113,21 @@ export const loginUser = async (credentials) => {
   return data;
 };
 
-export const forgotPassword = async (email) => {
+
+export const forgotPasswordOTP = async (phoneNumber) => {
   return apiRequest(`${BASE_URL}/forgot-password`, {
     method: "POST",
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ phoneNumber }),
   });
 };
 
-export const resetPassword = async (token, newPassword) => {
-  return apiRequest(`${BASE_URL}/reset-password/${token}`, {
+export const resetPasswordOTP = async (phoneNumber, otp, newPassword) => {
+  return apiRequest(`${BASE_URL}/reset-password`, {
     method: "PUT",
-    body: JSON.stringify({ password: newPassword }),
+    body: JSON.stringify({ phoneNumber, otp, password: newPassword }),
   });
 };
 
-export const forgotPasswordOTP = async (email) => {
-  return apiRequest(`${BASE_URL}/forgot-password-code`, {
-    method: "POST",
-    body: JSON.stringify({ email }),
-  });
-};
-
-export const resetPasswordOTP = async (email, otp, newPassword) => {
-  return apiRequest(`${BASE_URL}/reset-password-code`, {
-    method: "PUT",
-    body: JSON.stringify({ email, otp, password: newPassword }),
-  });
-};
 
 export const getUserProfile = async () => {
   return apiRequest(`${BASE_URL}/me`, { method: "GET" });
