@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+# Eat Well - Food Delivery App 🍔
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, fully-featured Food Delivery Application built with **React**, **Tailwind CSS**, and **Razorpay** integration. This project provides a seamless user experience from authentication to checkout.
 
-## Available Scripts
+## 🚀 Key Features
 
-In the project directory, you can run:
+- **🔐 Robust Authentication**: Secure Login and Signup system for both Users and Administrators.
+- **🍱 Interactive Food Menu**: Dynamic browsing of food items with category filtering and search functionality.
+- **🛒 Shopping Cart System**: Real-time cart management allowing users to add, remove, and update item quantities.
+- **💳 Razorpay Payment Gateway**: Fully integrated secure payment system for seamless transactions.
+- **👤 User Profile Management**: Personalized dashboard for users to manage their profiles and view information.
+- **📱 Fully Responsive Design**: Mobile-first architecture ensures a premium experience across all devices.
+- **🧪 Comprehensive Testing**: Robust test suite using Jest and React Testing Library to ensure code quality.
 
-### `npm start`
+## 🛠️ Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**: [React 19](https://react.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Routing**: [React Router 7](https://reactrouter.com/)
+- **Payments**: [Razorpay SDK](https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/)
+- **State Management**: React Hooks (useState, useEffect, useContext)
+- **Testing**: Jest & React Testing Library
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📂 Project Structure
 
-### `npm test`
+```text
+src/
+├── components/      # Reusable UI components (AuthForm, etc.)
+├── foodApp/         # Core food application features (Cart, FoodItem, LandingPage)
+├── payment/         # Payment gateway logic and components
+├── utils/           # API handlers and utility functions
+├── Assets/          # Images and static assets
+└── App.js           # Main application routing and entry point
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## ⚙️ Getting Started
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Node.js**: (v16 or higher recommended)
+- **npm** or **yarn**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/azarrazagula/auth-frontend.git
+   cd auth-frontend
+   ```
 
-### `npm run eject`
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **Configure Environment Variables**:
+   Create a `.env` file in the root directory and add your backend API URL:
+   ```env
+   REACT_APP_API_URL=https://auth-backend-3-4m2m.onrender.com/api/user
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. **Start the Development Server**:
+   ```bash
+   npm start
+   ```
+   The app will be available at `http://localhost:3000`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🧪 Running Tests
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To run the test suite and ensure everything is working correctly:
 
-## Learn More
+```bash
+npm test
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🏗️ Production Build
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To create an optimized production build:
 
-### Code Splitting
+```bash
+npm run build
+```
+The production-ready files will be generated in the `build/` folder.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🌐 Deployment
 
-### Analyzing the Bundle Size
+This project is configured for easy deployment on **Netlify** or **Vercel**. Ensure you add your environment variables in the deployment platform's settings.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built with ❤️ by [Ansar Ibrahim](https://github.com/azarrazagula)
