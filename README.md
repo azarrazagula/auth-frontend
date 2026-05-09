@@ -88,4 +88,4 @@ This project is configured for easy deployment on **Netlify** or **Vercel**. Ens
 
 ---
 
-Built with ❤️ by [Ansar Ibrahim](https://github.com/azarrazagula)
+Built with ❤️ by [Azar Ibrahim](https://github.com/azarrazagula)
